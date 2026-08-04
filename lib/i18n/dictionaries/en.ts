@@ -37,6 +37,8 @@ export const en = {
       previous: 'Previous photo',
       next: 'Next photo',
       goToPhoto: (n: number) => `Go to photo ${n}`,
+      openPhoto: 'View full photo',
+      close: 'Close',
     },
     amenitiesTitle: 'Amenities',
     aboutTitle: 'About this stay',

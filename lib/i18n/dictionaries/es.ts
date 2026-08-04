@@ -39,6 +39,8 @@ export const es: typeof en = {
       previous: 'Foto anterior',
       next: 'Foto siguiente',
       goToPhoto: (n: number) => `Ir a la foto ${n}`,
+      openPhoto: 'Ver foto completa',
+      close: 'Cerrar',
     },
     amenitiesTitle: 'Comodidades',
     aboutTitle: 'Sobre esta estadía',
