@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Fraunces, Inter } from 'next/font/google';
 import { Footer } from '@/components/layout/footer';
 import { Header } from '@/components/layout/header';
+import { QueryProvider } from '@/components/providers/query-provider';
 import { LocaleHydrator } from '@/lib/i18n/locale-hydrator';
 import './globals.css';
 
@@ -24,10 +25,12 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <LocaleHydrator />
-        <Header />
-        {children}
-        <Footer />
+        <QueryProvider>
+          <LocaleHydrator />
+          <Header />
+          {children}
+          <Footer />
+        </QueryProvider>
       </body>
     </html>
   );
