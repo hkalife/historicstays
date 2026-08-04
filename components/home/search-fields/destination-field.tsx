@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
 import { Landmark, X } from 'lucide-react';
 import { useTranslations } from '@/lib/i18n/use-translations';
+import { useSearchStore } from '@/lib/stores/search-store';
 import { SearchFieldShell } from './search-field-shell';
 
 export function DestinationField() {
-  const [value, setValue] = useState('');
+  const value = useSearchStore((state) => state.destination);
+  const setDestination = useSearchStore((state) => state.setDestination);
   const t = useTranslations();
 
   return (
@@ -18,7 +19,7 @@ export function DestinationField() {
         <input
           type="text"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => setDestination(e.target.value)}
           placeholder={t.home.search.destinationPlaceholder}
           className="w-full truncate bg-transparent text-sm font-medium text-foreground outline-none placeholder:font-normal placeholder:text-foreground/40"
           aria-label={t.home.search.destinationLabel}
@@ -26,7 +27,7 @@ export function DestinationField() {
         {value && (
           <button
             type="button"
-            onClick={() => setValue('')}
+            onClick={() => setDestination('')}
             aria-label={t.home.search.clearDestination}
             className="shrink-0 cursor-pointer text-foreground/40 transition-transform hover:text-foreground active:scale-90"
           >

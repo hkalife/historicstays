@@ -25,9 +25,11 @@ export const pt: typeof en = {
       increaseGuests: 'Aumentar número de hóspedes',
       searchButton: 'Pesquisar',
     },
-    popularDestinations: {
-      title: 'Destinos mais procurados',
-      subtitle: 'Nossos destinos históricos mais visitados.',
+    results: {
+      title: 'Estadias disponíveis',
+      perNight: '/ noite',
+      empty: 'Nenhuma estadia encontrada para essa busca. Tente outras datas ou filtros.',
+      error: 'Algo deu errado ao carregar as estadias. Tente novamente.',
     },
   },
 };

@@ -4,13 +4,15 @@ import { useState } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import { Minus, Plus, Users } from 'lucide-react';
 import { useTranslations } from '@/lib/i18n/use-translations';
+import { useSearchStore } from '@/lib/stores/search-store';
 import { SearchFieldShell } from './search-field-shell';
 
 const MIN_GUESTS = 1;
 const MAX_GUESTS = 8;
 
 export function GuestsField() {
-  const [guests, setGuests] = useState(2);
+  const guests = useSearchStore((state) => state.guests);
+  const setGuests = useSearchStore((state) => state.setGuests);
   const [open, setOpen] = useState(false);
   const t = useTranslations();
 
@@ -39,7 +41,7 @@ export function GuestsField() {
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                onClick={() => setGuests((g) => Math.max(MIN_GUESTS, g - 1))}
+                onClick={() => setGuests(Math.max(MIN_GUESTS, guests - 1))}
                 disabled={guests <= MIN_GUESTS}
                 aria-label={t.home.search.decreaseGuests}
                 className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-border text-foreground transition-transform hover:bg-border/40 active:scale-90 disabled:cursor-not-allowed disabled:active:scale-100"
@@ -51,7 +53,7 @@ export function GuestsField() {
               </span>
               <button
                 type="button"
-                onClick={() => setGuests((g) => Math.min(MAX_GUESTS, g + 1))}
+                onClick={() => setGuests(Math.min(MAX_GUESTS, guests + 1))}
                 disabled={guests >= MAX_GUESTS}
                 aria-label={t.home.search.increaseGuests}
                 className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-border text-foreground transition-transform hover:bg-border/40 active:scale-90 disabled:cursor-not-allowed disabled:active:scale-100"

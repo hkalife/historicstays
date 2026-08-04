@@ -23,9 +23,11 @@ export const en = {
       increaseGuests: 'Increase number of guests',
       searchButton: 'Search',
     },
-    popularDestinations: {
-      title: 'Most searched destinations',
-      subtitle: 'Our most visited historic destinations.',
+    results: {
+      title: 'Available stays',
+      perNight: '/ night',
+      empty: 'No stays match your search. Try different dates or filters.',
+      error: 'Something went wrong loading stays. Please try again.',
     },
   },
 };

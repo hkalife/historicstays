@@ -8,6 +8,7 @@ import { enGB, es, ptBR } from 'react-day-picker/locale';
 import 'react-day-picker/style.css';
 import type { Locale } from '@/lib/i18n/dictionaries';
 import { useLocale, useLocaleTag, useTranslations } from '@/lib/i18n/use-translations';
+import { useSearchStore } from '@/lib/stores/search-store';
 import { SearchFieldShell } from './search-field-shell';
 
 const DAY_PICKER_LOCALES: Record<Locale, typeof enGB> = { en: enGB, pt: ptBR, es };
@@ -17,9 +18,17 @@ const calendarStyle = {
   '--rdp-accent-background-color': '#e9ede7',
 } as CSSProperties;
 
+function toISODate(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 export function DateRangeField() {
   const [range, setRange] = useState<DateRange | undefined>();
   const [open, setOpen] = useState(false);
+  const setDateRange = useSearchStore((state) => state.setDateRange);
   const t = useTranslations();
   const locale = useLocale();
   const localeTag = useLocaleTag();
@@ -59,7 +68,13 @@ export function DateRangeField() {
             mode="range"
             numberOfMonths={1}
             selected={range}
-            onSelect={setRange}
+            onSelect={(nextRange) => {
+              setRange(nextRange);
+              setDateRange(
+                nextRange?.from ? toISODate(nextRange.from) : undefined,
+                nextRange?.to ? toISODate(nextRange.to) : undefined
+              );
+            }}
             disabled={{ before: new Date() }}
             locale={DAY_PICKER_LOCALES[locale]}
             style={calendarStyle}
