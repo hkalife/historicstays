@@ -33,6 +33,11 @@ export const en = {
   stayDetail: {
     notFound: 'Stay not found.',
     loadError: 'Something went wrong loading this stay. Please try again.',
+    gallery: {
+      previous: 'Previous photo',
+      next: 'Next photo',
+      goToPhoto: (n: number) => `Go to photo ${n}`,
+    },
     amenitiesTitle: 'Amenities',
     aboutTitle: 'About this stay',
     historicNoteLabel: 'Historic note',

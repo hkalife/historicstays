@@ -35,6 +35,11 @@ export const es: typeof en = {
   stayDetail: {
     notFound: 'Estadía no encontrada.',
     loadError: 'Algo salió mal al cargar esta estadía. Inténtalo de nuevo.',
+    gallery: {
+      previous: 'Foto anterior',
+      next: 'Foto siguiente',
+      goToPhoto: (n: number) => `Ir a la foto ${n}`,
+    },
     amenitiesTitle: 'Comodidades',
     aboutTitle: 'Sobre esta estadía',
     historicNoteLabel: 'Nota histórica',
