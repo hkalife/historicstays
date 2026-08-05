@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Spinner } from '@/components/ui/spinner';
 import { useTranslations } from '@/lib/i18n/use-translations';
 
 export function StepPayment({
@@ -108,8 +109,9 @@ export function StepPayment({
           type="button"
           onClick={onConfirm}
           disabled={!canConfirm || isSubmitting}
-          className="flex-1 cursor-pointer rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 active:bg-primary/80 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 active:bg-primary/80 disabled:cursor-not-allowed disabled:opacity-50"
         >
+          {isSubmitting && <Spinner />}
           {isSubmitting ? t.checkout.paymentStep.confirming : t.checkout.paymentStep.confirmButton}
         </button>
       </div>

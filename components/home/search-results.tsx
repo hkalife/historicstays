@@ -1,25 +1,10 @@
 'use client';
 
+import { PageSpinner } from '@/components/ui/page-spinner';
 import { useTranslations } from '@/lib/i18n/use-translations';
 import { useStaysQuery } from '@/lib/queries/use-stays';
 import { useSearchStore } from '@/lib/stores/search-store';
 import { StayCard } from './stay-card';
-
-function LoadingGrid() {
-  return (
-    <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i} className="overflow-hidden rounded-xl border border-border">
-          <div className="aspect-[4/3] animate-pulse bg-border/60" />
-          <div className="space-y-2 p-4">
-            <div className="h-4 w-2/3 animate-pulse rounded bg-border/60" />
-            <div className="h-3 w-1/3 animate-pulse rounded bg-border/60" />
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function StateMessage({ tone, message }: { tone: 'empty' | 'error'; message: string }) {
   return (
@@ -47,7 +32,7 @@ export function SearchResults() {
           {t.home.results.title}
         </h2>
 
-        {isLoading && <LoadingGrid />}
+        {isLoading && <PageSpinner />}
         {!isLoading && isError && <StateMessage tone="error" message={t.home.results.error} />}
         {!isLoading && !isError && data && data.stays.length === 0 && (
           <StateMessage tone="empty" message={t.home.results.empty} />

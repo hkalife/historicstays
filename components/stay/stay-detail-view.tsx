@@ -1,6 +1,7 @@
 'use client';
 
 import { BackButton } from '@/components/layout/back-button';
+import { PageSpinner } from '@/components/ui/page-spinner';
 import { useLocale, useTranslations } from '@/lib/i18n/use-translations';
 import { useStayQuery } from '@/lib/queries/use-stays';
 import { Amenities } from './amenities';
@@ -15,9 +16,7 @@ function LoadingState() {
     <div className="py-8 sm:py-10">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <BackButton />
-        <div className="aspect-[16/10] animate-pulse rounded-xl bg-border/40" />
-        <div className="mt-6 h-8 w-1/2 animate-pulse rounded bg-border/40" />
-        <div className="mt-3 h-4 w-1/3 animate-pulse rounded bg-border/40" />
+        <PageSpinner />
       </div>
     </div>
   );

@@ -3,6 +3,7 @@
 import { CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { PageSpinner } from '@/components/ui/page-spinner';
 import { nightsBetween } from '@/lib/availability';
 import { useLocaleTag, useTranslations } from '@/lib/i18n/use-translations';
 import { useBookingQuery } from '@/lib/queries/use-bookings';
@@ -11,9 +12,7 @@ function LoadingState() {
   return (
     <div className="py-16">
       <div className="mx-auto max-w-2xl px-4 sm:px-6">
-        <div className="mx-auto h-16 w-16 animate-pulse rounded-full bg-border/40" />
-        <div className="mx-auto mt-6 h-6 w-1/2 animate-pulse rounded bg-border/40" />
-        <div className="mt-8 h-56 animate-pulse rounded-xl bg-border/40" />
+        <PageSpinner />
       </div>
     </div>
   );

@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { BackButton } from '@/components/layout/back-button';
+import { Spinner } from '@/components/ui/spinner';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ApiRequestError } from '@/lib/api/client';
@@ -136,8 +137,9 @@ export function RegisterForm() {
             <button
               type="submit"
               disabled={registerMutation.isPending}
-              className="w-full cursor-pointer rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 active:bg-primary/80 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 active:bg-primary/80 disabled:cursor-not-allowed disabled:opacity-50"
             >
+              {registerMutation.isPending && <Spinner />}
               {registerMutation.isPending
                 ? t.auth.register.submitting
                 : t.auth.register.submitButton}

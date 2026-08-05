@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { BackButton } from '@/components/layout/back-button';
+import { PageSpinner } from '@/components/ui/page-spinner';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from '@/lib/i18n/use-translations';
@@ -56,8 +57,7 @@ export function CheckoutView({
       <div className="py-10">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <BackButton />
-          <div className="h-8 w-1/3 animate-pulse rounded bg-border/40" />
-          <div className="mt-6 h-64 animate-pulse rounded-xl bg-border/40" />
+          <PageSpinner />
         </div>
       </div>
     );

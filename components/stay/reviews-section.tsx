@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { Star } from 'lucide-react';
+import { Spinner } from '@/components/ui/spinner';
 import { useTranslations } from '@/lib/i18n/use-translations';
 import { useCreateReviewMutation, useReviewsQuery } from '@/lib/queries/use-reviews';
 
@@ -59,10 +60,8 @@ export function ReviewsSection({ stayId }: { stayId: string }) {
       )}
 
       {isLoading && (
-        <div className="mt-4 space-y-3">
-          {Array.from({ length: 2 }).map((_, i) => (
-            <div key={i} className="h-20 animate-pulse rounded-lg bg-border/40" />
-          ))}
+        <div className="mt-4 flex justify-center py-6">
+          <Spinner className="h-6 w-6 text-primary" />
         </div>
       )}
 
@@ -148,8 +147,9 @@ export function ReviewsSection({ stayId }: { stayId: string }) {
         <button
           type="submit"
           disabled={createReview.isPending}
-          className="mt-4 cursor-pointer rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 active:bg-primary/80 disabled:cursor-not-allowed disabled:opacity-50"
+          className="mt-4 flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 active:bg-primary/80 disabled:cursor-not-allowed disabled:opacity-50"
         >
+          {createReview.isPending && <Spinner />}
           {createReview.isPending
             ? t.stayDetail.reviews.submitting
             : t.stayDetail.reviews.submitButton}

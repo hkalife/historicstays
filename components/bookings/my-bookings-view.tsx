@@ -2,20 +2,11 @@
 
 import Link from 'next/link';
 import { BackButton } from '@/components/layout/back-button';
+import { PageSpinner } from '@/components/ui/page-spinner';
 import { useTranslations } from '@/lib/i18n/use-translations';
 import { useBookingsQuery } from '@/lib/queries/use-bookings';
 import { useSessionStore } from '@/lib/stores/session-store';
 import { BookingListCard } from './booking-list-card';
-
-function LoadingList() {
-  return (
-    <div className="mt-6 space-y-4">
-      {Array.from({ length: 3 }).map((_, i) => (
-        <div key={i} className="h-28 animate-pulse rounded-xl bg-border/40" />
-      ))}
-    </div>
-  );
-}
 
 export function MyBookingsView() {
   const t = useTranslations();
@@ -42,7 +33,7 @@ export function MyBookingsView() {
           </div>
         )}
 
-        {user && isLoading && <LoadingList />}
+        {user && isLoading && <PageSpinner />}
 
         {user && !isLoading && isError && (
           <p className="mt-8 text-center text-sm text-accent">{t.myBookings.loadError}</p>
