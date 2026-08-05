@@ -19,6 +19,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Generate Next.js route types
+        run: npx next typegen
+
       - name: Lint
         if: always()
         run: npm run lint
