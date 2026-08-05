@@ -2,6 +2,8 @@
 
 A Booking.com-style stay search and booking app, built as a take-home project. Guests can browse historic stays across a handful of European cities, view details/reviews/availability, and complete a mocked checkout end to end against a real backend.
 
+**Live demo:** [historicstays.vercel.app](https://historicstays.vercel.app/) (deployed on Vercel, backed by a production Turso database seeded with the same data as local dev)
+
 ## Stack
 
 - **Framework:** Next.js 16 (App Router) — route handlers double as the backend API, no separate server
@@ -111,7 +113,6 @@ With more time, in rough priority order:
 2. Real authentication (hashed passwords, server-side sessions).
 3. Favorites.
 4. A real map on the stay detail page.
-5. Deploy pipeline to Vercel + Turso for production.
 
 ## Note on LLM usage
 
