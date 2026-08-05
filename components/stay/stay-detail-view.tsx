@@ -12,11 +12,13 @@ import { StayInfo } from './stay-info';
 
 function LoadingState() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
-      <BackButton />
-      <div className="aspect-[16/10] animate-pulse rounded-xl bg-border/40" />
-      <div className="mt-6 h-8 w-1/2 animate-pulse rounded bg-border/40" />
-      <div className="mt-3 h-4 w-1/3 animate-pulse rounded bg-border/40" />
+    <div className="py-8 sm:py-10">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <BackButton />
+        <div className="aspect-[16/10] animate-pulse rounded-xl bg-border/40" />
+        <div className="mt-6 h-8 w-1/2 animate-pulse rounded bg-border/40" />
+        <div className="mt-3 h-4 w-1/3 animate-pulse rounded bg-border/40" />
+      </div>
     </div>
   );
 }
@@ -30,11 +32,13 @@ export function StayDetailView({ stayId }: { stayId: string }) {
 
   if (isError || !data) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6">
-        <BackButton />
-        <p className="text-foreground/70">
-          {isError ? t.stayDetail.loadError : t.stayDetail.notFound}
-        </p>
+      <div className="py-16">
+        <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
+          <BackButton />
+          <p className="text-foreground/70">
+            {isError ? t.stayDetail.loadError : t.stayDetail.notFound}
+          </p>
+        </div>
       </div>
     );
   }
@@ -42,30 +46,32 @@ export function StayDetailView({ stayId }: { stayId: string }) {
   const { stay } = data;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
-      <BackButton />
-      <Gallery images={stay.images} stayName={stay.name} />
+    <div className="py-8 sm:py-10">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <BackButton />
+        <Gallery images={stay.images} stayName={stay.name} />
 
-      <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-3">
-        <div className="space-y-10 lg:col-span-2">
-          <StayInfo stay={stay} />
-          <Description
-            title={t.stayDetail.aboutTitle}
-            description={stay.description}
-            historicNote={stay.historicNote}
-            historicNoteLabel={t.stayDetail.historicNoteLabel}
-          />
-          <Amenities
-            amenities={stay.amenities}
-            locale={locale}
-            title={t.stayDetail.amenitiesTitle}
-          />
-          <ReviewsSection stayId={stay.id} />
-        </div>
+        <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-3">
+          <div className="space-y-10 lg:col-span-2">
+            <StayInfo stay={stay} />
+            <Description
+              title={t.stayDetail.aboutTitle}
+              description={stay.description}
+              historicNote={stay.historicNote}
+              historicNoteLabel={t.stayDetail.historicNoteLabel}
+            />
+            <Amenities
+              amenities={stay.amenities}
+              locale={locale}
+              title={t.stayDetail.amenitiesTitle}
+            />
+            <ReviewsSection stayId={stay.id} />
+          </div>
 
-        <div className="lg:col-span-1">
-          <div className="lg:sticky lg:top-6">
-            <BookingCard stay={stay} />
+          <div className="lg:col-span-1">
+            <div className="lg:sticky lg:top-6">
+              <BookingCard stay={stay} />
+            </div>
           </div>
         </div>
       </div>

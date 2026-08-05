@@ -42,62 +42,64 @@ export function LoginForm() {
   }
 
   return (
-    <div className="mx-auto max-w-md px-4 py-16 sm:px-6">
-      <BackButton />
-      <div className="rounded-xl border border-border bg-white p-6 sm:p-8">
-        <h1 className="font-serif text-2xl font-semibold text-foreground">
-          {t.auth.login.title}
-        </h1>
-        <p className="mt-2 text-sm text-foreground/60">{t.auth.login.subtitle}</p>
+    <div className="py-16">
+      <div className="mx-auto max-w-md px-4 sm:px-6">
+        <BackButton />
+        <div className="rounded-xl border border-border bg-white p-6 sm:p-8">
+          <h1 className="font-serif text-2xl font-semibold text-foreground">
+            {t.auth.login.title}
+          </h1>
+          <p className="mt-2 text-sm text-foreground/60">{t.auth.login.subtitle}</p>
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          <div>
-            <label htmlFor="login-email" className="text-xs font-medium text-foreground/60">
-              {t.auth.login.emailLabel}
-            </label>
-            <input
-              id="login-email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t.auth.login.emailPlaceholder}
-              className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <div>
+              <label htmlFor="login-email" className="text-xs font-medium text-foreground/60">
+                {t.auth.login.emailLabel}
+              </label>
+              <input
+                id="login-email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={t.auth.login.emailPlaceholder}
+                className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
+              />
+            </div>
 
-          <div>
-            <label htmlFor="login-password" className="text-xs font-medium text-foreground/60">
-              {t.auth.login.passwordLabel}
-            </label>
-            <input
-              id="login-password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder={t.auth.login.passwordPlaceholder}
-              className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
-            />
-          </div>
+            <div>
+              <label htmlFor="login-password" className="text-xs font-medium text-foreground/60">
+                {t.auth.login.passwordLabel}
+              </label>
+              <input
+                id="login-password"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={t.auth.login.passwordPlaceholder}
+                className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
+              />
+            </div>
 
-          {errorMessage && <p className="text-sm text-accent">{errorMessage}</p>}
+            {errorMessage && <p className="text-sm text-accent">{errorMessage}</p>}
 
-          <button
-            type="submit"
-            disabled={loginMutation.isPending}
-            className="w-full cursor-pointer rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 active:bg-primary/80 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {loginMutation.isPending ? t.auth.login.submitting : t.auth.login.submitButton}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={loginMutation.isPending}
+              className="w-full cursor-pointer rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 active:bg-primary/80 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {loginMutation.isPending ? t.auth.login.submitting : t.auth.login.submitButton}
+            </button>
+          </form>
 
-        <p className="mt-6 text-center text-sm text-foreground/60">
-          {t.auth.login.toggleToRegister}{' '}
-          <Link href="/register" className="font-medium text-primary hover:underline">
-            {t.auth.login.toggleToRegisterLink}
-          </Link>
-        </p>
+          <p className="mt-6 text-center text-sm text-foreground/60">
+            {t.auth.login.toggleToRegister}{' '}
+            <Link href="/register" className="font-medium text-primary hover:underline">
+              {t.auth.login.toggleToRegisterLink}
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

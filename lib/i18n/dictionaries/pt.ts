@@ -9,6 +9,7 @@ export const pt: typeof en = {
     registerButton: 'Cadastre-se',
     loginButton: 'Login',
     logoutButton: 'Sair',
+    myBookingsLink: 'Minhas reservas',
     greeting: (name: string) => `Olá, ${name}`,
   },
   footer: {
@@ -131,7 +132,7 @@ export const pt: typeof en = {
   auth: {
     register: {
       title: 'Crie sua conta',
-      subtitle: 'Salve suas estadias favoritas e gerencie suas reservas em um só lugar.',
+      subtitle: 'Gerencie suas reservas em um só lugar.',
       nameLabel: 'Nome completo',
       namePlaceholder: 'Maria Silva',
       emailLabel: 'E-mail',
@@ -150,7 +151,7 @@ export const pt: typeof en = {
     },
     login: {
       title: 'Fazer login',
-      subtitle: 'Bem-vindo de volta. Faça login pra gerenciar suas reservas e favoritos.',
+      subtitle: 'Bem-vindo de volta. Faça login pra gerenciar suas reservas.',
       emailLabel: 'E-mail',
       emailPlaceholder: 'maria@exemplo.com',
       passwordLabel: 'Senha',
@@ -162,5 +163,13 @@ export const pt: typeof en = {
       toggleToRegister: 'Não tem uma conta?',
       toggleToRegisterLink: 'Criar conta',
     },
+  },
+  myBookings: {
+    title: 'Minhas reservas',
+    loginPrompt: 'Faça login para ver suas reservas.',
+    loginButton: 'Fazer login',
+    empty: 'Você ainda não tem reservas.',
+    emptyCta: 'Encontrar uma estadia',
+    loadError: 'Algo deu errado ao carregar suas reservas. Tente novamente.',
   },
 };

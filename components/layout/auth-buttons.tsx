@@ -15,6 +15,12 @@ export function AuthButtons() {
         <span className="hidden text-sm font-medium text-primary-foreground/90 sm:inline">
           {t.header.greeting(user.name)}
         </span>
+        <Link
+          href="/bookings"
+          className="rounded-md px-2.5 py-1.5 text-sm font-medium text-primary-foreground/90 outline-none hover:bg-white/10 active:bg-white/20 focus-visible:ring-2 focus-visible:ring-white/60"
+        >
+          {t.header.myBookingsLink}
+        </Link>
         <button
           type="button"
           onClick={() => clearUser()}

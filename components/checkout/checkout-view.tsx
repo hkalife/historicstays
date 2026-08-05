@@ -53,34 +53,40 @@ export function CheckoutView({
 
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <BackButton />
-        <div className="h-8 w-1/3 animate-pulse rounded bg-border/40" />
-        <div className="mt-6 h-64 animate-pulse rounded-xl bg-border/40" />
+      <div className="py-10">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <BackButton />
+          <div className="h-8 w-1/3 animate-pulse rounded bg-border/40" />
+          <div className="mt-6 h-64 animate-pulse rounded-xl bg-border/40" />
+        </div>
       </div>
     );
   }
 
   if (isError || !data) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6">
-        <BackButton />
-        <p className="text-foreground/70">{t.stayDetail.loadError}</p>
+      <div className="py-16">
+        <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
+          <BackButton />
+          <p className="text-foreground/70">{t.stayDetail.loadError}</p>
+        </div>
       </div>
     );
   }
 
   if (!hasValidSelection || !checkIn || !checkOut || !guests) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6">
-        <BackButton />
-        <p className="text-foreground/70">{t.checkout.missingSelection}</p>
-        <Link
-          href={`/stays/${stayId}`}
-          className="mt-4 inline-block text-sm font-medium text-primary hover:underline"
-        >
-          {t.checkout.backToStay}
-        </Link>
+      <div className="py-16">
+        <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
+          <BackButton />
+          <p className="text-foreground/70">{t.checkout.missingSelection}</p>
+          <Link
+            href={`/stays/${stayId}`}
+            className="mt-4 inline-block text-sm font-medium text-primary hover:underline"
+          >
+            {t.checkout.backToStay}
+          </Link>
+        </div>
       </div>
     );
   }
@@ -97,6 +103,7 @@ export function CheckoutView({
         guestsCount: guests,
         guestName: fullName,
         guestEmail: email,
+        userId: user?.id,
       },
       {
         onSuccess: (result) => {
@@ -107,53 +114,59 @@ export function CheckoutView({
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
-      <BackButton />
-      <Stepper
-        current={step}
-        labels={[t.checkout.steps.confirm, t.checkout.steps.guestDetails, t.checkout.steps.payment]}
-      />
+    <div className="py-8 sm:py-10">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <BackButton />
+        <Stepper
+          current={step}
+          labels={[
+            t.checkout.steps.confirm,
+            t.checkout.steps.guestDetails,
+            t.checkout.steps.payment,
+          ]}
+        />
 
-      <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
-        <div className="lg:col-span-1">
-          <StaySummaryCard
-            stay={stay}
-            checkIn={checkIn}
-            checkOut={checkOut}
-            guests={guests}
-            showTripDetails={step !== 1}
-          />
-        </div>
-
-        <div className="lg:col-span-2">
-          {step === 1 && (
-            <StepConfirm
+        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <div className="lg:col-span-1">
+            <StaySummaryCard
               stay={stay}
-              stayId={stayId}
               checkIn={checkIn}
               checkOut={checkOut}
               guests={guests}
-              onContinue={() => setStep(2)}
+              showTripDetails={step !== 1}
             />
-          )}
-          {step === 2 && (
-            <StepGuestDetails
-              fullName={fullName}
-              email={email}
-              onFullNameChange={setFullName}
-              onEmailChange={setEmail}
-              onBack={() => setStep(1)}
-              onContinue={() => setStep(3)}
-            />
-          )}
-          {step === 3 && (
-            <StepPayment
-              onBack={() => setStep(2)}
-              onConfirm={handleConfirmBooking}
-              isSubmitting={createBooking.isPending}
-              errorMessage={createBooking.isError ? t.checkout.paymentStep.error : undefined}
-            />
-          )}
+          </div>
+
+          <div className="lg:col-span-2">
+            {step === 1 && (
+              <StepConfirm
+                stay={stay}
+                stayId={stayId}
+                checkIn={checkIn}
+                checkOut={checkOut}
+                guests={guests}
+                onContinue={() => setStep(2)}
+              />
+            )}
+            {step === 2 && (
+              <StepGuestDetails
+                fullName={fullName}
+                email={email}
+                onFullNameChange={setFullName}
+                onEmailChange={setEmail}
+                onBack={() => setStep(1)}
+                onContinue={() => setStep(3)}
+              />
+            )}
+            {step === 3 && (
+              <StepPayment
+                onBack={() => setStep(2)}
+                onConfirm={handleConfirmBooking}
+                isSubmitting={createBooking.isPending}
+                errorMessage={createBooking.isError ? t.checkout.paymentStep.error : undefined}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

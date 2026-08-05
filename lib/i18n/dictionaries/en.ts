@@ -7,6 +7,7 @@ export const en = {
     registerButton: 'Register',
     loginButton: 'Login',
     logoutButton: 'Log out',
+    myBookingsLink: 'My bookings',
     greeting: (name: string) => `Hi, ${name}`,
   },
   footer: {
@@ -129,7 +130,7 @@ export const en = {
   auth: {
     register: {
       title: 'Create your account',
-      subtitle: 'Save your favorite stays and manage your bookings in one place.',
+      subtitle: 'Manage your bookings in one place.',
       nameLabel: 'Full name',
       namePlaceholder: 'Jane Doe',
       emailLabel: 'Email',
@@ -148,7 +149,7 @@ export const en = {
     },
     login: {
       title: 'Log in',
-      subtitle: 'Welcome back. Log in to manage your bookings and favorites.',
+      subtitle: 'Welcome back. Log in to manage your bookings.',
       emailLabel: 'Email',
       emailPlaceholder: 'jane@example.com',
       passwordLabel: 'Password',
@@ -160,5 +161,13 @@ export const en = {
       toggleToRegister: "Don't have an account?",
       toggleToRegisterLink: 'Create one',
     },
+  },
+  myBookings: {
+    title: 'My bookings',
+    loginPrompt: 'Log in to see your bookings.',
+    loginButton: 'Log in',
+    empty: "You don't have any bookings yet.",
+    emptyCta: 'Find a stay',
+    loadError: 'Something went wrong loading your bookings. Please try again.',
   },
 };
