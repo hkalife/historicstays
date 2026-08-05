@@ -1,0 +1,163 @@
+{
+  "cities": [
+    { "id": "5313a509-4a4a-408d-b5e4-861aea3b68a2", "name": "Prague", "country": "Czech Republic" },
+    { "id": "0ff38231-e0bf-42ca-89ff-7ec88de5663a", "name": "Bratislava", "country": "Slovakia" },
+    { "id": "a0b786f0-3fc9-46cf-bc21-0e62047d131f", "name": "Munich", "country": "Germany" },
+    { "id": "6eb5fbda-fa18-4a8f-b71d-61d594918b97", "name": "Tallinn", "country": "Estonia" },
+    { "id": "bd17eb6a-22f4-4624-88e4-4226d6be81dc", "name": "Amsterdam", "country": "Netherlands" }
+  ],
+
+  "stays": [
+    {
+      "id": "8df6978f-402a-45b9-bbc7-31d876e22394",
+      "name": "Malá Strana townhouse",
+      "cityId": "5313a509-4a4a-408d-b5e4-861aea3b68a2",
+      "address": "Malá Strana, Prague 1",
+      "historicNote": "17th-century burgher house below Prague Castle",
+      "description": "A restored townhouse in one of Prague's oldest quarters, with original vaulted stone ceilings and a shared courtyard that looks straight up at the castle.",
+      "pricePerNight": 142,
+      "maxGuests": 4,
+      "rating": 4.8,
+      "amenities": ["wifi", "kitchen", "heating", "washer"],
+      "images": [
+        "/stays/prague-mala-strana/exterior.png",
+        "/stays/prague-mala-strana/bedroom.png",
+        "/stays/prague-mala-strana/bathroom.png",
+        "/stays/prague-mala-strana/common.png"
+      ],
+      "blockedDates": [
+        "2026-08-10", "2026-08-11", "2026-08-12", "2026-08-13", "2026-08-14",
+        "2026-09-01", "2026-09-02", "2026-09-03",
+        "2026-10-20", "2026-10-21", "2026-10-22", "2026-10-23", "2026-10-24", "2026-10-25"
+      ]
+    },
+    {
+      "id": "84eb2ec1-57be-46bb-85cd-0199be923c68",
+      "name": "Vinohrady Art Nouveau apartment",
+      "cityId": "5313a509-4a4a-408d-b5e4-861aea3b68a2",
+      "address": "Vinohrady, Prague 2",
+      "historicNote": "Art Nouveau building, 1908",
+      "description": "High ceilings, original stucco details, and tall windows overlooking a quiet residential street lined with matching turn-of-the-century facades.",
+      "pricePerNight": 96,
+      "maxGuests": 3,
+      "rating": 4.7,
+      "amenities": ["wifi", "kitchen", "balcony", "washer"],
+      "images": [
+        "/stays/prague-vinohrady/exterior.png",
+        "/stays/prague-vinohrady/bedroom.png",
+        "/stays/prague-vinohrady/bathroom.png",
+        "/stays/prague-vinohrady/common.png"
+      ],
+      "blockedDates": [
+        "2026-08-20", "2026-08-21", "2026-08-22", "2026-08-23",
+        "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18"
+      ]
+    },
+    {
+      "id": "51aeb6f2-b38a-4bf6-9012-a09e5ce02365",
+      "name": "Bratislava Old Town cellar apartment",
+      "cityId": "0ff38231-e0bf-42ca-89ff-7ec88de5663a",
+      "address": "Staré Mesto, Bratislava",
+      "historicNote": "Building dates to the Habsburg era, 1782",
+      "description": "Ground-floor apartment with a stone-vaulted cellar bar area, steps from the Main Square. The date 1782 is still carved above the front door.",
+      "pricePerNight": 79,
+      "maxGuests": 3,
+      "rating": 4.5,
+      "amenities": ["wifi", "kitchen", "air conditioning"],
+      "images": [
+        "/stays/bratislava/exterior.png",
+        "/stays/bratislava/bedroom.png",
+        "/stays/bratislava/bathroom.png",
+        "/stays/bratislava/common.png"
+      ],
+      "blockedDates": [
+        "2026-08-12", "2026-08-13", "2026-08-14", "2026-08-15",
+        "2026-09-05", "2026-09-06", "2026-09-07", "2026-09-08", "2026-09-09",
+        "2026-10-01", "2026-10-02"
+      ]
+    },
+    {
+      "id": "8e7fd229-79e7-4aaf-8767-f2f22dda07ec",
+      "name": "Altstadt Gaststube guest room",
+      "cityId": "a0b786f0-3fc9-46cf-bc21-0e62047d131f",
+      "address": "Altstadt, Munich",
+      "historicNote": "Wing of a historic Bavarian gaststube building, painted façade dates to the 1800s",
+      "description": "A guest room above a traditional Bavarian tavern in the old town, with exposed timber beams, a hand-painted tiled stove in the shared lounge, and hand-lettered room signs original to the building.",
+      "pricePerNight": 89,
+      "maxGuests": 2,
+      "rating": 4.6,
+      "amenities": ["wifi", "heating", "shared lounge"],
+      "images": [
+        "/stays/munich/exterior.png",
+        "/stays/munich/bedroom.png",
+        "/stays/munich/bathroom.png",
+        "/stays/munich/common.png"
+      ],
+      "blockedDates": [
+        "2026-08-25", "2026-08-26", "2026-08-27", "2026-08-28", "2026-08-29",
+        "2026-09-20", "2026-09-21", "2026-09-22"
+      ]
+    },
+    {
+      "id": "e1b17006-7b55-4033-9e76-3310c6057570",
+      "name": "Tallinn Old Town tower view flat",
+      "cityId": "6eb5fbda-fa18-4a8f-b71d-61d594918b97",
+      "address": "Vanalinn, Tallinn",
+      "historicNote": "Medieval merchant house within the city walls",
+      "description": "A flat inside the walled Old Town with a four-poster bed and a bedroom window that frames one of Tallinn's defensive towers.",
+      "pricePerNight": 89,
+      "maxGuests": 2,
+      "rating": 4.8,
+      "amenities": ["wifi", "kitchen", "heating"],
+      "images": [
+        "/stays/tallinn/exterior.png",
+        "/stays/tallinn/bedroom.png",
+        "/stays/tallinn/bathroom.png",
+        "/stays/tallinn/common.png"
+      ],
+      "blockedDates": [
+        "2026-08-15", "2026-08-16", "2026-08-17", "2026-08-18",
+        "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13",
+        "2026-10-05", "2026-10-06", "2026-10-07"
+      ]
+    },
+    {
+      "id": "8122b710-29b0-44a6-8c3a-0292731a1d62",
+      "name": "Jordaan canal house apartment",
+      "cityId": "bd17eb6a-22f4-4624-88e4-4226d6be81dc",
+      "address": "Jordaan, Amsterdam",
+      "historicNote": "17th-century canal house",
+      "description": "Narrow canal house apartment with the original steep staircase and windows looking straight out over the water and passing boats.",
+      "pricePerNight": 156,
+      "maxGuests": 3,
+      "rating": 4.7,
+      "amenities": ["wifi", "kitchen", "heating"],
+      "images": [
+        "/stays/amsterdam/exterior.png",
+        "/stays/amsterdam/bedroom.png",
+        "/stays/amsterdam/bathroom.png",
+        "/stays/amsterdam/common.png"
+      ],
+      "blockedDates": [
+        "2026-08-08", "2026-08-09", "2026-08-10", "2026-08-11",
+        "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26",
+        "2026-10-15", "2026-10-16", "2026-10-17", "2026-10-18", "2026-10-19"
+      ]
+    }
+  ],
+
+  "reviews": [
+    { "id": "389272e6-e7ed-4beb-8bf8-5d0aec09f4ab", "stayId": "8df6978f-402a-45b9-bbc7-31d876e22394", "authorName": "Marta K.", "rating": 5, "comment": "The vaulted ceilings and the quiet courtyard made this feel like staying in a small museum, but comfortable. Ten minute walk to the castle.", "createdAt": "2026-05-12" },
+    { "id": "8afa4c8b-b0d9-4dbd-92eb-19223aa068c7", "stayId": "8df6978f-402a-45b9-bbc7-31d876e22394", "authorName": "Daniel R.", "rating": 4, "comment": "Great location and character, though the stairs are steep and there's no elevator.", "createdAt": "2026-06-02" },
+    { "id": "867dd057-0292-4118-bf72-3f4bff930d49", "stayId": "84eb2ec1-57be-46bb-85cd-0199be923c68", "authorName": "Tomas H.", "rating": 5, "comment": "The stucco details on the ceiling are incredible. Quiet neighborhood, easy tram into the center.", "createdAt": "2026-03-15" },
+    { "id": "b469a855-2ede-4bd2-ba8c-b12ffba4f271", "stayId": "84eb2ec1-57be-46bb-85cd-0199be923c68", "authorName": "Ingrid S.", "rating": 4, "comment": "Lovely bright apartment, the balcony was a nice surprise. A bit of a walk to the main sights but worth it for the calm.", "createdAt": "2026-06-20" },
+    { "id": "a7a01a64-0eaf-413d-995a-e339eb99be1f", "stayId": "51aeb6f2-b38a-4bf6-9012-a09e5ce02365", "authorName": "Pavel S.", "rating": 5, "comment": "The cellar bar area is a great surprise, felt like a private wine bar. Walking distance to everything in Old Town.", "createdAt": "2026-06-10" },
+    { "id": "9c834278-542e-4283-ad6e-38fb7a3d4e49", "stayId": "51aeb6f2-b38a-4bf6-9012-a09e5ce02365", "authorName": "Anna B.", "rating": 4, "comment": "Loved seeing the 1782 date carved above the door every time we came home. Cozy and central.", "createdAt": "2026-05-03" },
+    { "id": "58549984-17c1-4f4c-a8f9-99602ebd4183", "stayId": "8e7fd229-79e7-4aaf-8767-f2f22dda07ec", "authorName": "Julia W.", "rating": 5, "comment": "Felt like stepping into a Bavarian storybook. The tiled stove in the lounge is beautiful and the room itself was warm and quiet.", "createdAt": "2026-05-28" },
+    { "id": "346d04c1-a478-4da5-b092-8b7079b5c50b", "stayId": "8e7fd229-79e7-4aaf-8767-f2f22dda07ec", "authorName": "Felix M.", "rating": 4, "comment": "Right above a real Gaststube, so evenings were lively downstairs, but it quieted down by night. Great location in the Altstadt.", "createdAt": "2026-07-01" },
+    { "id": "eb03f6d5-aa16-4744-9079-9cf95fb6f48a", "stayId": "e1b17006-7b55-4033-9e76-3310c6057570", "authorName": "Karl M.", "rating": 5, "comment": "Waking up next to the tower wall was unforgettable. Small but perfectly located inside the walls.", "createdAt": "2026-05-25" },
+    { "id": "e0ba176c-f191-44cc-a975-ffb8d7aa4229", "stayId": "e1b17006-7b55-4033-9e76-3310c6057570", "authorName": "Sofia P.", "rating": 5, "comment": "The four-poster bed and the stone walls made it feel properly medieval, in a good way. Very central.", "createdAt": "2026-04-20" },
+    { "id": "4600b156-9c58-4d69-936e-ede355e7f1ff", "stayId": "8122b710-29b0-44a6-8c3a-0292731a1d62", "authorName": "Lotte D.", "rating": 4, "comment": "Classic canal house experience, mind the stairs if you have heavy luggage. Great location in the Jordaan.", "createdAt": "2026-04-30" },
+    { "id": "0a612789-4993-48c4-84b3-165a41343e07", "stayId": "8122b710-29b0-44a6-8c3a-0292731a1d62", "authorName": "Bram J.", "rating": 5, "comment": "Fell asleep to boats passing on the canal. Small apartment but every window has a view worth taking a photo of.", "createdAt": "2026-06-05" }
+  ]
+}
