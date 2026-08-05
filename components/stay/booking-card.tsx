@@ -11,6 +11,7 @@ import { nightsBetween } from '@/lib/availability';
 import type { Locale } from '@/lib/i18n/dictionaries';
 import { useLocale, useLocaleTag, useTranslations } from '@/lib/i18n/use-translations';
 import type { StayWithCity } from '@/lib/mappers';
+import { useStayAvailabilityQuery } from '@/lib/queries/use-stays';
 
 const DAY_PICKER_LOCALES: Record<Locale, typeof enGB> = { en: enGB, pt: ptBR, es };
 
@@ -24,6 +25,18 @@ function toISODate(date: Date): string {
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
+}
+
+/** Expands a [checkIn, checkOut) range into one Date per occupied night (checkout day itself is free). */
+function expandRangeToDates(checkIn: string, checkOut: string): Date[] {
+  const dates: Date[] = [];
+  const current = new Date(`${checkIn}T00:00:00`);
+  const end = new Date(`${checkOut}T00:00:00`);
+  while (current < end) {
+    dates.push(new Date(current));
+    current.setDate(current.getDate() + 1);
+  }
+  return dates;
 }
 
 export function BookingCard({ stay }: { stay: StayWithCity }) {
@@ -40,9 +53,15 @@ export function BookingCard({ stay }: { stay: StayWithCity }) {
     [localeTag]
   );
 
-  const blockedDates = useMemo(() => stay.blockedDates.map((d) => new Date(`${d}T00:00:00`)), [
-    stay.blockedDates,
-  ]);
+  const { data: availabilityData } = useStayAvailabilityQuery(stay.id);
+
+  const blockedDates = useMemo(() => {
+    const seedBlocked = stay.blockedDates.map((d) => new Date(`${d}T00:00:00`));
+    const bookedBlocked = (availabilityData?.bookedRanges ?? []).flatMap((r) =>
+      expandRangeToDates(r.checkIn, r.checkOut)
+    );
+    return [...seedBlocked, ...bookedBlocked];
+  }, [stay.blockedDates, availabilityData]);
 
   const checkIn = range?.from ? toISODate(range.from) : undefined;
   const checkOut = range?.to ? toISODate(range.to) : undefined;
@@ -101,6 +120,7 @@ export function BookingCard({ stay }: { stay: StayWithCity }) {
                 selected={range}
                 onSelect={setRange}
                 disabled={[{ before: new Date() }, ...blockedDates]}
+                excludeDisabled
                 locale={DAY_PICKER_LOCALES[locale]}
                 style={calendarStyle}
               />

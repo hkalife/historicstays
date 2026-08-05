@@ -28,3 +28,9 @@ export function getStays(filters: StaySearchFilters = {}): Promise<{ stays: Stay
 export function getStay(id: string): Promise<{ stay: StayWithCity }> {
   return apiClient.get(`/api/stays/${id}`);
 }
+
+export type BookedRange = { checkIn: string; checkOut: string };
+
+export function getStayAvailability(id: string): Promise<{ bookedRanges: BookedRange[] }> {
+  return apiClient.get(`/api/stays/${id}/availability`);
+}
