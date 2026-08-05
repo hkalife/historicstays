@@ -2,7 +2,12 @@
 
 import { useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
+import { TextField } from '@/components/ui/text-field';
+import { FIELD_LIMITS } from '@/lib/forms/constants';
+import { formatCardNumber, formatCvv, formatExpiry, isExpiryValid } from '@/lib/forms/payment';
 import { useTranslations } from '@/lib/i18n/use-translations';
+
+type TouchedFields = { cardName: boolean; cardNumber: boolean; expiry: boolean; cvv: boolean };
 
 export function StepPayment({
   onBack,
@@ -20,12 +25,22 @@ export function StepPayment({
   const [cardNumber, setCardNumber] = useState('');
   const [expiry, setExpiry] = useState('');
   const [cvv, setCvv] = useState('');
+  const [touched, setTouched] = useState<TouchedFields>({
+    cardName: false,
+    cardNumber: false,
+    expiry: false,
+    cvv: false,
+  });
 
-  const canConfirm =
-    cardName.trim().length > 0 &&
-    /^\d{13,19}$/.test(cardNumber.replace(/\s/g, '')) &&
-    /^\d{2}\/\d{2}$/.test(expiry) &&
-    /^\d{3,4}$/.test(cvv);
+  const isCardNameValid = cardName.trim().length > 0;
+  const isCardNumberValid = /^\d{13,19}$/.test(cardNumber.replace(/\s/g, ''));
+  const isExpiryFieldValid = isExpiryValid(expiry);
+  const isCvvValid = /^\d{3,4}$/.test(cvv);
+  const canConfirm = isCardNameValid && isCardNumberValid && isExpiryFieldValid && isCvvValid;
+
+  function markTouched(field: keyof TouchedFields) {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+  }
 
   return (
     <div className="rounded-xl border border-border bg-white p-6">
@@ -37,60 +52,67 @@ export function StepPayment({
       </p>
 
       <div className="mt-4">
-        <label htmlFor="card-name" className="text-xs font-medium text-foreground/60">
-          {t.checkout.paymentStep.cardNameLabel}
-        </label>
-        <input
+        <TextField
           id="card-name"
           type="text"
+          label={t.checkout.paymentStep.cardNameLabel}
           value={cardName}
-          onChange={(e) => setCardName(e.target.value)}
+          onChange={setCardName}
+          onBlur={() => markTouched('cardName')}
+          maxLength={FIELD_LIMITS.cardName}
           placeholder="Jane Doe"
-          className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
+          error={touched.cardName && !isCardNameValid ? t.checkout.paymentStep.cardNameError : undefined}
         />
       </div>
 
       <div className="mt-4">
-        <label htmlFor="card-number" className="text-xs font-medium text-foreground/60">
-          {t.checkout.paymentStep.cardNumberLabel}
-        </label>
-        <input
+        <TextField
           id="card-number"
           type="text"
           inputMode="numeric"
+          label={t.checkout.paymentStep.cardNumberLabel}
           value={cardNumber}
-          onChange={(e) => setCardNumber(e.target.value)}
+          onChange={(value) => setCardNumber(formatCardNumber(value))}
+          onBlur={() => markTouched('cardNumber')}
+          maxLength={23}
           placeholder="4111 1111 1111 1111"
-          className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
+          error={
+            touched.cardNumber && !isCardNumberValid
+              ? t.checkout.paymentStep.cardNumberError
+              : undefined
+          }
         />
       </div>
 
       <div className="mt-4 flex gap-3">
         <div className="flex-1">
-          <label htmlFor="card-expiry" className="text-xs font-medium text-foreground/60">
-            {t.checkout.paymentStep.expiryLabel}
-          </label>
-          <input
+          <TextField
             id="card-expiry"
             type="text"
+            inputMode="numeric"
+            label={t.checkout.paymentStep.expiryLabel}
             value={expiry}
-            onChange={(e) => setExpiry(e.target.value)}
+            onChange={(value) => setExpiry(formatExpiry(value))}
+            onBlur={() => markTouched('expiry')}
+            maxLength={5}
             placeholder="MM/AA"
-            className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
+            error={
+              touched.expiry && !isExpiryFieldValid ? t.checkout.paymentStep.expiryError : undefined
+            }
           />
         </div>
         <div className="flex-1">
-          <label htmlFor="card-cvv" className="text-xs font-medium text-foreground/60">
-            {t.checkout.paymentStep.cvvLabel}
-          </label>
-          <input
+          <TextField
             id="card-cvv"
             type="text"
             inputMode="numeric"
+            label={t.checkout.paymentStep.cvvLabel}
             value={cvv}
-            onChange={(e) => setCvv(e.target.value)}
+            onChange={(value) => setCvv(formatCvv(value))}
+            onBlur={() => markTouched('cvv')}
+            maxLength={4}
             placeholder="123"
-            className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
+            error={touched.cvv && !isCvvValid ? t.checkout.paymentStep.cvvError : undefined}
           />
         </div>
       </div>

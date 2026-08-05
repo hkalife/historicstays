@@ -2,6 +2,8 @@ import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { isStayAvailable, nightsBetween } from '@/lib/availability';
+import { FIELD_LIMITS } from '@/lib/forms/constants';
+import { sanitizeText } from '@/lib/forms/sanitize';
 import { ApiError, EMAIL_RE, isValidDate, parseJsonBody, withRoute } from '@/lib/http';
 import { mapStayRow, type StayRow } from '@/lib/mappers';
 
@@ -64,7 +66,7 @@ export const POST = withRoute('POST /api/bookings', async (req) => {
   const checkIn = typeof body.checkIn === 'string' ? body.checkIn : '';
   const checkOut = typeof body.checkOut === 'string' ? body.checkOut : '';
   const guestsCount = Number(body.guestsCount);
-  const guestName = typeof body.guestName === 'string' ? body.guestName.trim() : '';
+  const guestName = typeof body.guestName === 'string' ? sanitizeText(body.guestName.trim()) : '';
   const guestEmail = typeof body.guestEmail === 'string' ? body.guestEmail.trim() : '';
   const userId = typeof body.userId === 'string' && body.userId ? body.userId : null;
 
@@ -72,10 +74,12 @@ export const POST = withRoute('POST /api/bookings', async (req) => {
   if (!isValidDate(checkIn) || !isValidDate(checkOut) || checkIn >= checkOut) {
     throw new ApiError(400, 'checkIn/checkOut must be valid dates with checkIn before checkOut');
   }
-  if (!guestName || guestName.length > 120) {
-    throw new ApiError(400, 'guestName is required (max 120 characters)');
+  if (!guestName || guestName.length > FIELD_LIMITS.name) {
+    throw new ApiError(400, `guestName is required (max ${FIELD_LIMITS.name} characters)`);
   }
-  if (!EMAIL_RE.test(guestEmail)) throw new ApiError(400, 'guestEmail must be a valid email');
+  if (!EMAIL_RE.test(guestEmail) || guestEmail.length > FIELD_LIMITS.email) {
+    throw new ApiError(400, 'guestEmail must be a valid email');
+  }
   if (!Number.isInteger(guestsCount) || guestsCount < 1) {
     throw new ApiError(400, 'guestsCount must be a positive integer');
   }

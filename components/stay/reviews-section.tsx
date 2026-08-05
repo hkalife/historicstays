@@ -3,6 +3,8 @@
 import { useState, type FormEvent } from 'react';
 import { Star } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
+import { TextAreaField, TextField } from '@/components/ui/text-field';
+import { FIELD_LIMITS } from '@/lib/forms/constants';
 import { useTranslations } from '@/lib/i18n/use-translations';
 import { useCreateReviewMutation, useReviewsQuery } from '@/lib/queries/use-reviews';
 
@@ -97,18 +99,15 @@ export function ReviewsSection({ stayId }: { stayId: string }) {
         </h3>
 
         <div className="mt-3">
-          <label htmlFor="review-name" className="text-xs font-medium text-foreground/60">
-            {t.stayDetail.reviews.nameLabel}
-          </label>
-          <input
+          <TextField
             id="review-name"
             type="text"
             required
-            maxLength={80}
+            label={t.stayDetail.reviews.nameLabel}
             value={authorName}
-            onChange={(e) => setAuthorName(e.target.value)}
+            onChange={setAuthorName}
+            maxLength={FIELD_LIMITS.reviewAuthorName}
             placeholder={t.stayDetail.reviews.namePlaceholder}
-            className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
           />
         </div>
 
@@ -122,18 +121,15 @@ export function ReviewsSection({ stayId }: { stayId: string }) {
         </div>
 
         <div className="mt-3">
-          <label htmlFor="review-comment" className="text-xs font-medium text-foreground/60">
-            {t.stayDetail.reviews.commentLabel}
-          </label>
-          <textarea
+          <TextAreaField
             id="review-comment"
             required
-            maxLength={1000}
             rows={3}
+            label={t.stayDetail.reviews.commentLabel}
             value={comment}
-            onChange={(e) => setComment(e.target.value)}
+            onChange={setComment}
+            maxLength={FIELD_LIMITS.comment}
             placeholder={t.stayDetail.reviews.commentPlaceholder}
-            className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
           />
         </div>
 

@@ -1,6 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
+import { TextField } from '@/components/ui/text-field';
+import { FIELD_LIMITS } from '@/lib/forms/constants';
 import { useTranslations } from '@/lib/i18n/use-translations';
 import { useSessionStore } from '@/lib/stores/session-store';
 
@@ -23,7 +26,12 @@ export function StepGuestDetails({
 }) {
   const t = useTranslations();
   const user = useSessionStore((state) => state.user);
-  const canContinue = fullName.trim().length > 0 && EMAIL_RE.test(email);
+  const [nameTouched, setNameTouched] = useState(false);
+  const [emailTouched, setEmailTouched] = useState(false);
+
+  const isNameValid = fullName.trim().length > 0;
+  const isEmailValid = EMAIL_RE.test(email);
+  const canContinue = isNameValid && isEmailValid;
 
   return (
     <div className="rounded-xl border border-border bg-white p-6">
@@ -41,35 +49,38 @@ export function StepGuestDetails({
       </h2>
 
       <div className="mt-4">
-        <label htmlFor="guest-name" className="text-xs font-medium text-foreground/60">
-          {t.checkout.guestDetailsStep.fullNameLabel}
-        </label>
-        <input
+        <TextField
           id="guest-name"
           type="text"
           required
-          maxLength={120}
+          label={t.checkout.guestDetailsStep.fullNameLabel}
           value={fullName}
-          onChange={(e) => onFullNameChange(e.target.value)}
+          onChange={onFullNameChange}
+          onBlur={() => setNameTouched(true)}
+          maxLength={FIELD_LIMITS.name}
           placeholder={t.checkout.guestDetailsStep.fullNamePlaceholder}
-          className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
+          error={
+            nameTouched && !isNameValid ? t.checkout.guestDetailsStep.fullNameError : undefined
+          }
         />
       </div>
 
       <div className="mt-4">
-        <label htmlFor="guest-email" className="text-xs font-medium text-foreground/60">
-          {t.checkout.guestDetailsStep.emailLabel}
-        </label>
-        <input
+        <TextField
           id="guest-email"
           type="email"
           required
+          label={t.checkout.guestDetailsStep.emailLabel}
           value={email}
-          onChange={(e) => onEmailChange(e.target.value)}
+          onChange={onEmailChange}
+          onBlur={() => setEmailTouched(true)}
+          maxLength={FIELD_LIMITS.email}
           placeholder={t.checkout.guestDetailsStep.emailPlaceholder}
-          className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
+          hint={t.checkout.guestDetailsStep.emailHint}
+          error={
+            emailTouched && !isEmailValid ? t.checkout.guestDetailsStep.emailError : undefined
+          }
         />
-        <p className="mt-1 text-xs text-foreground/50">{t.checkout.guestDetailsStep.emailHint}</p>
       </div>
 
       <div className="mt-6 flex gap-3">

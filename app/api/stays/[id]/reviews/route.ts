@@ -1,6 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { FIELD_LIMITS } from '@/lib/forms/constants';
+import { sanitizeText } from '@/lib/forms/sanitize';
 import { ApiError, parseJsonBody, withRoute } from '@/lib/http';
 import { mapReviewRow, type ReviewRow } from '@/lib/mappers';
 
@@ -33,15 +35,19 @@ export const POST = withRoute<RouteContext<'/api/stays/[id]/reviews'>>(
     await assertStayExists(id);
 
     const body = await parseJsonBody(req);
-    const authorName = typeof body.authorName === 'string' ? body.authorName.trim() : '';
-    const comment = typeof body.comment === 'string' ? body.comment.trim() : '';
+    const authorName =
+      typeof body.authorName === 'string' ? sanitizeText(body.authorName.trim()) : '';
+    const comment = typeof body.comment === 'string' ? sanitizeText(body.comment.trim()) : '';
     const rating = Number(body.rating);
 
-    if (!authorName || authorName.length > 80) {
-      throw new ApiError(400, 'authorName is required (max 80 characters)');
+    if (!authorName || authorName.length > FIELD_LIMITS.reviewAuthorName) {
+      throw new ApiError(
+        400,
+        `authorName is required (max ${FIELD_LIMITS.reviewAuthorName} characters)`
+      );
     }
-    if (!comment || comment.length > 1000) {
-      throw new ApiError(400, 'comment is required (max 1000 characters)');
+    if (!comment || comment.length > FIELD_LIMITS.comment) {
+      throw new ApiError(400, `comment is required (max ${FIELD_LIMITS.comment} characters)`);
     }
     if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
       throw new ApiError(400, 'rating must be an integer between 1 and 5');

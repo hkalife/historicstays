@@ -1,11 +1,14 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { BackButton } from '@/components/layout/back-button';
+import { PageSpinner } from '@/components/ui/page-spinner';
 import { Spinner } from '@/components/ui/spinner';
+import { TextField } from '@/components/ui/text-field';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ApiRequestError } from '@/lib/api/client';
+import { FIELD_LIMITS } from '@/lib/forms/constants';
 import { useTranslations } from '@/lib/i18n/use-translations';
 import { useRegisterMutation } from '@/lib/queries/use-auth';
 import { useSessionStore } from '@/lib/stores/session-store';
@@ -15,12 +18,21 @@ export function RegisterForm() {
   const router = useRouter();
   const registerMutation = useRegisterMutation();
   const setUser = useSessionStore((state) => state.setUser);
+  const user = useSessionStore((state) => state.user);
+  const hasHydrated = useSessionStore((state) => state.hasHydrated);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [mismatchError, setMismatchError] = useState(false);
+
+  // Already logged in — this page shouldn't be reachable, bounce to Home.
+  useEffect(() => {
+    if (hasHydrated && user) {
+      router.replace('/');
+    }
+  }, [hasHydrated, user, router]);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -52,6 +64,14 @@ export function RegisterForm() {
     errorMessage = isEmailTaken ? t.auth.register.emailTakenError : t.auth.register.genericError;
   }
 
+  if (!hasHydrated || user) {
+    return (
+      <div className="py-16">
+        <PageSpinner />
+      </div>
+    );
+  }
+
   return (
     <div className="py-16">
       <div className="mx-auto max-w-md px-4 sm:px-6">
@@ -63,74 +83,51 @@ export function RegisterForm() {
           <p className="mt-2 text-sm text-foreground/60">{t.auth.register.subtitle}</p>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-            <div>
-              <label htmlFor="register-name" className="text-xs font-medium text-foreground/60">
-                {t.auth.register.nameLabel}
-              </label>
-              <input
-                id="register-name"
-                type="text"
-                required
-                maxLength={120}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder={t.auth.register.namePlaceholder}
-                className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
-              />
-            </div>
+            <TextField
+              id="register-name"
+              type="text"
+              required
+              label={t.auth.register.nameLabel}
+              value={name}
+              onChange={setName}
+              maxLength={FIELD_LIMITS.name}
+              placeholder={t.auth.register.namePlaceholder}
+            />
 
-            <div>
-              <label htmlFor="register-email" className="text-xs font-medium text-foreground/60">
-                {t.auth.register.emailLabel}
-              </label>
-              <input
-                id="register-email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={t.auth.register.emailPlaceholder}
-                className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
-              />
-            </div>
+            <TextField
+              id="register-email"
+              type="email"
+              required
+              label={t.auth.register.emailLabel}
+              value={email}
+              onChange={setEmail}
+              maxLength={FIELD_LIMITS.email}
+              placeholder={t.auth.register.emailPlaceholder}
+            />
 
-            <div>
-              <label
-                htmlFor="register-password"
-                className="text-xs font-medium text-foreground/60"
-              >
-                {t.auth.register.passwordLabel}
-              </label>
-              <input
-                id="register-password"
-                type="password"
-                required
-                minLength={4}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder={t.auth.register.passwordPlaceholder}
-                className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
-              />
-            </div>
+            <TextField
+              id="register-password"
+              type="password"
+              required
+              minLength={4}
+              label={t.auth.register.passwordLabel}
+              value={password}
+              onChange={setPassword}
+              maxLength={FIELD_LIMITS.password}
+              placeholder={t.auth.register.passwordPlaceholder}
+            />
 
-            <div>
-              <label
-                htmlFor="register-confirm-password"
-                className="text-xs font-medium text-foreground/60"
-              >
-                {t.auth.register.confirmPasswordLabel}
-              </label>
-              <input
-                id="register-confirm-password"
-                type="password"
-                required
-                minLength={4}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder={t.auth.register.confirmPasswordPlaceholder}
-                className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
-              />
-            </div>
+            <TextField
+              id="register-confirm-password"
+              type="password"
+              required
+              minLength={4}
+              label={t.auth.register.confirmPasswordLabel}
+              value={confirmPassword}
+              onChange={setConfirmPassword}
+              maxLength={FIELD_LIMITS.password}
+              placeholder={t.auth.register.confirmPasswordPlaceholder}
+            />
 
             {errorMessage && <p className="text-sm text-accent">{errorMessage}</p>}
 

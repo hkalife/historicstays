@@ -1,11 +1,14 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { BackButton } from '@/components/layout/back-button';
+import { PageSpinner } from '@/components/ui/page-spinner';
 import { Spinner } from '@/components/ui/spinner';
+import { TextField } from '@/components/ui/text-field';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ApiRequestError } from '@/lib/api/client';
+import { FIELD_LIMITS } from '@/lib/forms/constants';
 import { useTranslations } from '@/lib/i18n/use-translations';
 import { useLoginMutation } from '@/lib/queries/use-auth';
 import { useSessionStore } from '@/lib/stores/session-store';
@@ -15,9 +18,18 @@ export function LoginForm() {
   const router = useRouter();
   const loginMutation = useLoginMutation();
   const setUser = useSessionStore((state) => state.setUser);
+  const user = useSessionStore((state) => state.user);
+  const hasHydrated = useSessionStore((state) => state.hasHydrated);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // Already logged in — this page shouldn't be reachable, bounce to Home.
+  useEffect(() => {
+    if (hasHydrated && user) {
+      router.replace('/');
+    }
+  }, [hasHydrated, user, router]);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -42,6 +54,14 @@ export function LoginForm() {
       : t.auth.login.genericError;
   }
 
+  if (!hasHydrated || user) {
+    return (
+      <div className="py-16">
+        <PageSpinner />
+      </div>
+    );
+  }
+
   return (
     <div className="py-16">
       <div className="mx-auto max-w-md px-4 sm:px-6">
@@ -53,35 +73,27 @@ export function LoginForm() {
           <p className="mt-2 text-sm text-foreground/60">{t.auth.login.subtitle}</p>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-            <div>
-              <label htmlFor="login-email" className="text-xs font-medium text-foreground/60">
-                {t.auth.login.emailLabel}
-              </label>
-              <input
-                id="login-email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={t.auth.login.emailPlaceholder}
-                className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
-              />
-            </div>
+            <TextField
+              id="login-email"
+              type="email"
+              required
+              label={t.auth.login.emailLabel}
+              value={email}
+              onChange={setEmail}
+              maxLength={FIELD_LIMITS.email}
+              placeholder={t.auth.login.emailPlaceholder}
+            />
 
-            <div>
-              <label htmlFor="login-password" className="text-xs font-medium text-foreground/60">
-                {t.auth.login.passwordLabel}
-              </label>
-              <input
-                id="login-password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder={t.auth.login.passwordPlaceholder}
-                className="mt-1 w-full rounded-lg border border-border px-3 py-2.5 text-sm text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
-              />
-            </div>
+            <TextField
+              id="login-password"
+              type="password"
+              required
+              label={t.auth.login.passwordLabel}
+              value={password}
+              onChange={setPassword}
+              maxLength={FIELD_LIMITS.password}
+              placeholder={t.auth.login.passwordPlaceholder}
+            />
 
             {errorMessage && <p className="text-sm text-accent">{errorMessage}</p>}
 
