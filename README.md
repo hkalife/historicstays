@@ -25,6 +25,25 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000). Everything — frontend and API — runs from this one command.
 
+## Features
+
+- **Search & browse** — home page with a destination/dates/guests search bar, a curated "available stays" grid, and per-stay cards with photo, price, and rating.
+- **Stay details** — photo gallery with a full-screen modal viewer, historic note, description, amenities, address, and guest reviews.
+- **Live availability** — a date-range calendar on the stay page that disables already-booked and blocked dates (fetched per stay, not just the static seed data), preventing a guest from even selecting an invalid range.
+- **Checkout** — 3-step flow (trip details → payment → confirmation) with a progress stepper, real-time field validation and error messaging (including card number/expiry/CVV formatting), and a booking confirmation screen.
+- **Double-booking protection** — enforced both in the UI (calendar) and independently in the API (a booking request for an already-taken range is rejected server-side), so the UI check is a convenience, not the source of truth.
+- **Auth** — register/login with route guards that redirect an already-logged-in user away from `/login` and `/register`.
+- **My bookings** — a list of the logged-in user's bookings, with an in-page prompt to log in if not authenticated.
+- **Internationalization** — every screen and string in English, Portuguese, and Spanish, with a language switcher in the header.
+- **Responsive design** — usable from mobile to desktop.
+- **Loading, empty, and error states** — spinners on data-dependent screens (notably the stay detail page), empty states for no results, and inline error messaging on form/API failures.
+- **Input security** — shared length limits and XSS sanitization applied to every form field, enforced both client-side (immediate feedback) and server-side (never trusting the client alone).
+- **Accessibility** — labeled form fields with `aria-invalid`/`aria-describedby` wiring, keyboard-operable Radix primitives (dialog, popover, dropdown, tabs).
+
+## Design inspiration
+
+The UI/UX takes direct inspiration from Booking.com — the search bar layout, the stay card grid, the checkout stepper, and the overall information hierarchy on the stay detail page were all modeled after how Booking.com structures the same flows, adapted to this app's own visual identity (colors, typography, historic-stays framing) rather than copied verbatim.
+
 ## Scripts
 
 | Script | What it does |
