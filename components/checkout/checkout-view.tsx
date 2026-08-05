@@ -1,11 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { BackButton } from '@/components/layout/back-button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from '@/lib/i18n/use-translations';
 import { useCreateBookingMutation } from '@/lib/queries/use-bookings';
 import { useStayQuery } from '@/lib/queries/use-stays';
+import { useSessionStore } from '@/lib/stores/session-store';
 import { StaySummaryCard } from './stay-summary-card';
 import { StepConfirm } from './step-confirm';
 import { StepGuestDetails } from './step-guest-details';
@@ -29,10 +31,21 @@ export function CheckoutView({
   const router = useRouter();
   const { data, isLoading, isError } = useStayQuery(stayId);
   const createBooking = useCreateBookingMutation();
+  const user = useSessionStore((state) => state.user);
 
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
+
+  // Syncs the form with the session store once it rehydrates from localStorage after mount.
+  useEffect(() => {
+    if (user && !fullName && !email) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setFullName(user.name);
+      setEmail(user.email);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const hasValidSelection = Boolean(
     checkIn && checkOut && DATE_RE.test(checkIn) && DATE_RE.test(checkOut) && guests && guests > 0
@@ -41,6 +54,7 @@ export function CheckoutView({
   if (isLoading) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+        <BackButton />
         <div className="h-8 w-1/3 animate-pulse rounded bg-border/40" />
         <div className="mt-6 h-64 animate-pulse rounded-xl bg-border/40" />
       </div>
@@ -50,6 +64,7 @@ export function CheckoutView({
   if (isError || !data) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6">
+        <BackButton />
         <p className="text-foreground/70">{t.stayDetail.loadError}</p>
       </div>
     );
@@ -58,6 +73,7 @@ export function CheckoutView({
   if (!hasValidSelection || !checkIn || !checkOut || !guests) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6">
+        <BackButton />
         <p className="text-foreground/70">{t.checkout.missingSelection}</p>
         <Link
           href={`/stays/${stayId}`}
@@ -92,6 +108,7 @@ export function CheckoutView({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+      <BackButton />
       <Stepper
         current={step}
         labels={[t.checkout.steps.confirm, t.checkout.steps.guestDetails, t.checkout.steps.payment]}
@@ -99,11 +116,26 @@ export function CheckoutView({
 
       <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div className="lg:col-span-1">
-          <StaySummaryCard stay={stay} checkIn={checkIn} checkOut={checkOut} guests={guests} />
+          <StaySummaryCard
+            stay={stay}
+            checkIn={checkIn}
+            checkOut={checkOut}
+            guests={guests}
+            showTripDetails={step !== 1}
+          />
         </div>
 
         <div className="lg:col-span-2">
-          {step === 1 && <StepConfirm stayId={stayId} onContinue={() => setStep(2)} />}
+          {step === 1 && (
+            <StepConfirm
+              stay={stay}
+              stayId={stayId}
+              checkIn={checkIn}
+              checkOut={checkOut}
+              guests={guests}
+              onContinue={() => setStep(2)}
+            />
+          )}
           {step === 2 && (
             <StepGuestDetails
               fullName={fullName}

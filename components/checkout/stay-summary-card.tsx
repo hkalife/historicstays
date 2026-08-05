@@ -11,11 +11,13 @@ export function StaySummaryCard({
   checkIn,
   checkOut,
   guests,
+  showTripDetails = true,
 }: {
   stay: StayWithCity;
   checkIn: string;
   checkOut: string;
   guests: number;
+  showTripDetails?: boolean;
 }) {
   const t = useTranslations();
   const localeTag = useLocaleTag();
@@ -44,31 +46,35 @@ export function StaySummaryCard({
         {stay.rating.toFixed(1)}
       </div>
 
-      <div className="mt-4 space-y-2 border-t border-border pt-4 text-sm">
-        <div className="flex justify-between">
-          <span className="text-foreground/60">{t.stayDetail.booking.checkInLabel}</span>
-          <span className="font-medium text-foreground">
-            {formatter.format(new Date(`${checkIn}T00:00:00`))}
-          </span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-foreground/60">{t.stayDetail.booking.checkOutLabel}</span>
-          <span className="font-medium text-foreground">
-            {formatter.format(new Date(`${checkOut}T00:00:00`))}
-          </span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-foreground/60">{t.stayDetail.booking.guestsLabel}</span>
-          <span className="font-medium text-foreground">{guests}</span>
-        </div>
-      </div>
+      {showTripDetails && (
+        <>
+          <div className="mt-4 space-y-2 border-t border-border pt-4 text-sm">
+            <div className="flex justify-between">
+              <span className="text-foreground/60">{t.stayDetail.booking.checkInLabel}</span>
+              <span className="font-medium text-foreground">
+                {formatter.format(new Date(`${checkIn}T00:00:00`))}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-foreground/60">{t.stayDetail.booking.checkOutLabel}</span>
+              <span className="font-medium text-foreground">
+                {formatter.format(new Date(`${checkOut}T00:00:00`))}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-foreground/60">{t.stayDetail.booking.guestsLabel}</span>
+              <span className="font-medium text-foreground">{guests}</span>
+            </div>
+          </div>
 
-      <div className="mt-4 flex items-center justify-between border-t border-border pt-4 text-sm">
-        <span className="text-foreground/70">{t.stayDetail.booking.nightsLabel(nights)}</span>
-        <span className="font-semibold text-foreground">
-          €{total} {t.stayDetail.booking.totalLabel}
-        </span>
-      </div>
+          <div className="mt-4 flex items-center justify-between border-t border-border pt-4 text-sm">
+            <span className="text-foreground/70">{t.stayDetail.booking.nightsLabel(nights)}</span>
+            <span className="font-semibold text-foreground">
+              €{total} {t.stayDetail.booking.totalLabel}
+            </span>
+          </div>
+        </>
+      )}
     </div>
   );
 }

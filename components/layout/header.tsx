@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { AuthButtons } from './auth-buttons';
 import { LanguageDropdown } from './language-dropdown';
 
 export function Header() {
@@ -8,7 +9,10 @@ export function Header() {
         <Link href="/" className="font-serif text-xl font-semibold tracking-tight">
           HistoricStays
         </Link>
-        <LanguageDropdown />
+        <div className="flex items-center gap-3">
+          <LanguageDropdown />
+          <AuthButtons />
+        </div>
       </div>
     </header>
   );

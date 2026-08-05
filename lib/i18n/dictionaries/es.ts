@@ -1,8 +1,15 @@
 import type { en } from './en';
 
 export const es: typeof en = {
+  common: {
+    back: 'Atrás',
+  },
   header: {
     selectLanguage: 'Seleccionar idioma',
+    registerButton: 'Regístrate',
+    loginButton: 'Iniciar sesión',
+    logoutButton: 'Cerrar sesión',
+    greeting: (name: string) => `Hola, ${name}`,
   },
   footer: {
     craftedBy: 'Creado por',
@@ -120,5 +127,40 @@ export const es: typeof en = {
     emailLabel: 'Correo electrónico',
     viewBookingsButton: 'Ver mis reservas',
     backHomeButton: 'Volver al inicio',
+  },
+  auth: {
+    register: {
+      title: 'Crea tu cuenta',
+      subtitle: 'Guarda tus estadías favoritas y gestiona tus reservas en un solo lugar.',
+      nameLabel: 'Nombre completo',
+      namePlaceholder: 'María López',
+      emailLabel: 'Correo electrónico',
+      emailPlaceholder: 'maria@ejemplo.com',
+      passwordLabel: 'Contraseña',
+      passwordPlaceholder: 'Al menos 4 caracteres',
+      confirmPasswordLabel: 'Confirma la contraseña',
+      confirmPasswordPlaceholder: 'Repite tu contraseña',
+      passwordMismatch: 'Las contraseñas no coinciden.',
+      submitButton: 'Crear cuenta',
+      submitting: 'Creando cuenta...',
+      emailTakenError: 'Ya existe una cuenta con ese correo.',
+      genericError: 'No se pudo crear tu cuenta. Inténtalo de nuevo.',
+      toggleToLogin: '¿Ya tienes cuenta?',
+      toggleToLoginLink: 'Iniciar sesión',
+    },
+    login: {
+      title: 'Iniciar sesión',
+      subtitle: 'Bienvenido de nuevo. Inicia sesión para gestionar tus reservas y favoritos.',
+      emailLabel: 'Correo electrónico',
+      emailPlaceholder: 'maria@ejemplo.com',
+      passwordLabel: 'Contraseña',
+      passwordPlaceholder: 'Tu contraseña',
+      submitButton: 'Iniciar sesión',
+      submitting: 'Iniciando sesión...',
+      invalidCredentialsError: 'Correo o contraseña incorrectos.',
+      genericError: 'No se pudo iniciar sesión. Inténtalo de nuevo.',
+      toggleToRegister: '¿No tienes cuenta?',
+      toggleToRegisterLink: 'Crear cuenta',
+    },
   },
 };

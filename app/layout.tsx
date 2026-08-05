@@ -4,6 +4,7 @@ import { Footer } from '@/components/layout/footer';
 import { Header } from '@/components/layout/header';
 import { QueryProvider } from '@/components/providers/query-provider';
 import { LocaleHydrator } from '@/lib/i18n/locale-hydrator';
+import { SessionHydrator } from '@/lib/stores/session-hydrator';
 import './globals.css';
 
 const fraunces = Fraunces({
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       <body className="min-h-full flex flex-col">
         <QueryProvider>
           <LocaleHydrator />
+          <SessionHydrator />
           <Header />
           {children}
           <Footer />

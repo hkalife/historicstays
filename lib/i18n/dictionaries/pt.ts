@@ -1,8 +1,15 @@
 import type { en } from './en';
 
 export const pt: typeof en = {
+  common: {
+    back: 'Voltar',
+  },
   header: {
     selectLanguage: 'Selecionar idioma',
+    registerButton: 'Cadastre-se',
+    loginButton: 'Login',
+    logoutButton: 'Sair',
+    greeting: (name: string) => `Olá, ${name}`,
   },
   footer: {
     craftedBy: 'Criado por',
@@ -120,5 +127,40 @@ export const pt: typeof en = {
     emailLabel: 'E-mail',
     viewBookingsButton: 'Ver minhas reservas',
     backHomeButton: 'Voltar pro início',
+  },
+  auth: {
+    register: {
+      title: 'Crie sua conta',
+      subtitle: 'Salve suas estadias favoritas e gerencie suas reservas em um só lugar.',
+      nameLabel: 'Nome completo',
+      namePlaceholder: 'Maria Silva',
+      emailLabel: 'E-mail',
+      emailPlaceholder: 'maria@exemplo.com',
+      passwordLabel: 'Senha',
+      passwordPlaceholder: 'Pelo menos 4 caracteres',
+      confirmPasswordLabel: 'Confirme a senha',
+      confirmPasswordPlaceholder: 'Repita sua senha',
+      passwordMismatch: 'As senhas não coincidem.',
+      submitButton: 'Criar conta',
+      submitting: 'Criando conta...',
+      emailTakenError: 'Já existe uma conta com esse e-mail.',
+      genericError: 'Não foi possível criar sua conta. Tente novamente.',
+      toggleToLogin: 'Já tem uma conta?',
+      toggleToLoginLink: 'Fazer login',
+    },
+    login: {
+      title: 'Fazer login',
+      subtitle: 'Bem-vindo de volta. Faça login pra gerenciar suas reservas e favoritos.',
+      emailLabel: 'E-mail',
+      emailPlaceholder: 'maria@exemplo.com',
+      passwordLabel: 'Senha',
+      passwordPlaceholder: 'Sua senha',
+      submitButton: 'Entrar',
+      submitting: 'Entrando...',
+      invalidCredentialsError: 'E-mail ou senha incorretos.',
+      genericError: 'Não foi possível fazer login. Tente novamente.',
+      toggleToRegister: 'Não tem uma conta?',
+      toggleToRegisterLink: 'Criar conta',
+    },
   },
 };

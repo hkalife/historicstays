@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useTranslations } from '@/lib/i18n/use-translations';
+import { useSessionStore } from '@/lib/stores/session-store';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -21,18 +22,21 @@ export function StepGuestDetails({
   onContinue: () => void;
 }) {
   const t = useTranslations();
+  const user = useSessionStore((state) => state.user);
   const canContinue = fullName.trim().length > 0 && EMAIL_RE.test(email);
 
   return (
     <div className="rounded-xl border border-border bg-white p-6">
-      <p className="rounded-lg bg-background px-4 py-3 text-sm text-foreground/70">
-        {t.checkout.guestDetailsStep.loginPrompt}{' '}
-        <Link href="/login" className="font-medium text-primary hover:underline">
-          {t.checkout.guestDetailsStep.loginLink}
-        </Link>
-      </p>
+      {!user && (
+        <p className="rounded-lg bg-background px-4 py-3 text-sm text-foreground/70">
+          {t.checkout.guestDetailsStep.loginPrompt}{' '}
+          <Link href="/login" className="font-medium text-primary hover:underline">
+            {t.checkout.guestDetailsStep.loginLink}
+          </Link>
+        </p>
+      )}
 
-      <h2 className="mt-4 font-serif text-lg font-semibold text-foreground">
+      <h2 className={`font-serif text-lg font-semibold text-foreground ${user ? '' : 'mt-4'}`}>
         {t.checkout.guestDetailsStep.title}
       </h2>
 

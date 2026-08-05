@@ -1,5 +1,6 @@
 'use client';
 
+import { BackButton } from '@/components/layout/back-button';
 import { useLocale, useTranslations } from '@/lib/i18n/use-translations';
 import { useStayQuery } from '@/lib/queries/use-stays';
 import { Amenities } from './amenities';
@@ -12,6 +13,7 @@ import { StayInfo } from './stay-info';
 function LoadingState() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+      <BackButton />
       <div className="aspect-[16/10] animate-pulse rounded-xl bg-border/40" />
       <div className="mt-6 h-8 w-1/2 animate-pulse rounded bg-border/40" />
       <div className="mt-3 h-4 w-1/3 animate-pulse rounded bg-border/40" />
@@ -29,6 +31,7 @@ export function StayDetailView({ stayId }: { stayId: string }) {
   if (isError || !data) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6">
+        <BackButton />
         <p className="text-foreground/70">
           {isError ? t.stayDetail.loadError : t.stayDetail.notFound}
         </p>
@@ -40,6 +43,7 @@ export function StayDetailView({ stayId }: { stayId: string }) {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+      <BackButton />
       <Gallery images={stay.images} stayName={stay.name} />
 
       <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-3">
