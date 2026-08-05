@@ -95,9 +95,18 @@ Given the timebox, scope was deliberately cut in a few places:
 
 ## Testing
 
-The suite covers the highest-value logic rather than aiming for full coverage: booking-conflict/availability rules, payment formatting/validation, data mappers (including that user API responses never leak the password field), input sanitization, the shared API error handling, and a handful of components with non-trivial behavior (form validation UX, the checkout stepper, translated amenities, auth-aware header, stay info formatting).
+The suite covers the highest-value logic rather than aiming for full coverage. It's all automated with Vitest, and splits into two kinds:
 
-**This is deliberately a thin slice, not full coverage** — given the timebox, breadth of tests was traded off against finishing the product itself. Notably missing: API route/integration tests (hitting the route handlers directly), end-to-end tests of the full booking flow, and broader component coverage. This is the area I'd invest in first with more time — see below.
+- **Unit tests** (pure logic, no rendering): booking-conflict/availability rules, payment formatting/validation, data mappers (including that user API responses never leak the password field), input sanitization, and the shared API error-handling helper.
+- **Component tests** (React Testing Library, rendering + user interaction, no network/router): form validation UX, the checkout stepper, translated amenities, the auth-aware header, and stay info formatting.
+
+**What wasn't done, due to the timebox:**
+
+- **Integration tests** — nothing exercises the actual API route handlers against a database; correctness there was verified manually during development, not automated.
+- **End-to-end tests** — no Playwright/Cypress coverage of full user flows (e.g. search → book → confirm) across real pages and routing.
+- **Broader component coverage** — most components (search, booking calendar, checkout steps, auth forms, bookings list) have no tests yet.
+
+This is the area I'd invest in first with more time — see Next steps below.
 
 Run with `npm run test`.
 
@@ -105,15 +114,36 @@ Run with `npm run test`.
 
 `.github/workflows/ci.yml` runs on every push/PR to `main`: lint → typecheck → test → build. No secrets required — the build and tests don't touch a real database.
 
+## Observability
+
+Every API route is wrapped by a shared helper (`lib/http.ts` → `withRoute`), so logging is consistent across all endpoints without repeating it per route:
+
+- **Request logging** — every request logs its route, response status, and duration once it completes: `[api] /stays -> 200 (12ms)`.
+- **Error logging** — any unexpected (non-`ApiError`) failure is logged separately with the full error object before being turned into a generic 500 response, so the real cause is never swallowed even though the client only sees a safe message.
+- **Expected errors aren't noise** — validation/not-found/conflict errors (`ApiError`, e.g. a 409 on a double-booking attempt) still get the request log line, but skip the `console.error` — they're normal outcomes, not bugs.
+
+This is plain `console.log`/`console.error`, which Vercel captures automatically in its function logs — no external logging service wired up. A metrics/error-tracking tool (e.g. Sentry) would be a natural next layer on top of this (see Next steps), giving alerting and aggregation instead of just log lines.
+
 ## Next steps
 
 With more time, in rough priority order:
 
 1. **Deeper test coverage** — API route tests, end-to-end coverage of the booking flow, more component tests (this was the most consciously under-scoped area, see Testing above).
-2. Real authentication (hashed passwords, server-side sessions).
-3. Favorites.
-4. A real map on the stay detail page.
+2. **More manual QA time** — the app was tested as it was built, but a dedicated pass over every flow (edge cases, cross-browser, mobile) would likely surface more bugs than the timebox allowed for.
+3. Real authentication (hashed passwords, server-side sessions).
+4. Cancel booking — from "My bookings" (the schema already has a `cancelled` status and every availability query already excludes it, but there's no endpoint or UI to trigger it yet).
+5. Favorites.
+6. A real map on the stay detail page.
+7. Metrics/error-tracking tool (e.g. Sentry) on top of the existing request/error logging.
 
 ## Note on LLM usage
 
-This project was built collaboratively with an AI coding assistant (Claude Code) — pair-programming style, with plans reviewed and confirmed before each implementation step. All product and architecture decisions, and the final code, were reviewed by me.
+This project was built collaboratively with an AI coding assistant (Claude Code), pair-programming style, for essentially every part of the work: scaffolding the project, implementing features, writing tests, debugging reported issues, setting up CI/deploy, and drafting this README.
+
+**Approach:** for anything non-trivial, the cycle was plan → confirm → implement → validate, not "describe the feature and accept whatever comes back." For UI/UX changes in particular, nothing was implemented until I'd reviewed and approved a proposed approach first — several features (e.g. the checkout flow, the destinations section on the home page) went through a round of "here's the plan, don't implement yet" before any code was written.
+
+**Guardrails:**
+- Every diff was reviewed by me before being accepted, not merged on trust.
+- Product, architecture, and security-sensitive decisions (e.g. what to sanitize and why, that user API responses must never include the password field, how double-booking should be prevented on both client and server) were decisions I made and directed, not ones left to the assistant's judgment.
+- Nothing was marked done without running typecheck, lint, and the test suite; several bugs the assistant introduced (a wrong test assertion, a CI config gap) were caught this way before being reported as finished.
+- Bug reports and scope changes came from my own manual testing of the running app, not from the assistant.

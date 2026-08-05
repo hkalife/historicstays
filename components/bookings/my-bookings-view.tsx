@@ -16,7 +16,7 @@ export function MyBookingsView() {
   return (
     <div className="py-8 sm:py-10">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <BackButton />
+        <BackButton href="/" />
         <h1 className="font-serif text-2xl font-semibold text-foreground sm:text-3xl">
           {t.myBookings.title}
         </h1>
