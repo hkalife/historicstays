@@ -95,9 +95,18 @@ Given the timebox, scope was deliberately cut in a few places:
 
 ## Testing
 
-The suite covers the highest-value logic rather than aiming for full coverage: booking-conflict/availability rules, payment formatting/validation, data mappers (including that user API responses never leak the password field), input sanitization, the shared API error handling, and a handful of components with non-trivial behavior (form validation UX, the checkout stepper, translated amenities, auth-aware header, stay info formatting).
+The suite covers the highest-value logic rather than aiming for full coverage. It's all automated with Vitest, and splits into two kinds:
 
-**This is deliberately a thin slice, not full coverage** — given the timebox, breadth of tests was traded off against finishing the product itself. Notably missing: API route/integration tests (hitting the route handlers directly), end-to-end tests of the full booking flow, and broader component coverage. This is the area I'd invest in first with more time — see below.
+- **Unit tests** (pure logic, no rendering): booking-conflict/availability rules, payment formatting/validation, data mappers (including that user API responses never leak the password field), input sanitization, and the shared API error-handling helper.
+- **Component tests** (React Testing Library, rendering + user interaction, no network/router): form validation UX, the checkout stepper, translated amenities, the auth-aware header, and stay info formatting.
+
+**What wasn't done, due to the timebox:**
+
+- **Integration tests** — nothing exercises the actual API route handlers against a database; correctness there was verified manually during development, not automated.
+- **End-to-end tests** — no Playwright/Cypress coverage of full user flows (e.g. search → book → confirm) across real pages and routing.
+- **Broader component coverage** — most components (search, booking calendar, checkout steps, auth forms, bookings list) have no tests yet.
+
+This is the area I'd invest in first with more time — see Next steps below.
 
 Run with `npm run test`.
 
@@ -110,9 +119,11 @@ Run with `npm run test`.
 With more time, in rough priority order:
 
 1. **Deeper test coverage** — API route tests, end-to-end coverage of the booking flow, more component tests (this was the most consciously under-scoped area, see Testing above).
-2. Real authentication (hashed passwords, server-side sessions).
-3. Favorites.
-4. A real map on the stay detail page.
+2. **More manual QA time** — the app was tested as it was built, but a dedicated pass over every flow (edge cases, cross-browser, mobile) would likely surface more bugs than the timebox allowed for.
+3. Real authentication (hashed passwords, server-side sessions).
+4. Cancel booking — from "My bookings" (the schema already has a `cancelled` status and every availability query already excludes it, but there's no endpoint or UI to trigger it yet).
+5. Favorites.
+6. A real map on the stay detail page.
 
 ## Note on LLM usage
 

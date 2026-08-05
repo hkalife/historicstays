@@ -8,7 +8,13 @@ import { SearchFieldShell } from './search-field-shell';
 export function DestinationField() {
   const value = useSearchStore((state) => state.destination);
   const setDestination = useSearchStore((state) => state.setDestination);
+  const submitSearch = useSearchStore((state) => state.submitSearch);
   const t = useTranslations();
+
+  function handleClear() {
+    setDestination('');
+    submitSearch();
+  }
 
   return (
     <SearchFieldShell
@@ -27,7 +33,7 @@ export function DestinationField() {
         {value && (
           <button
             type="button"
-            onClick={() => setDestination('')}
+            onClick={handleClear}
             aria-label={t.home.search.clearDestination}
             className="shrink-0 cursor-pointer text-foreground/40 transition-transform hover:text-foreground active:scale-90"
           >
